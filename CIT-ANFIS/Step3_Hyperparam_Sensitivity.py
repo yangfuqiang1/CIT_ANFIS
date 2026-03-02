@@ -24,7 +24,7 @@ try:
     if '.' not in sys.path:
         sys.path.append('.')
     from dataprepare import load_iso_ne, load_malaysia, load_north_american, enhance_features, split_dataset_by_paper
-    from xganfis.model_lse import TreeANFIS
+    from CITanfis.model_lse import TreeANFIS
 except ImportError as e:
     print(f"[Error] Import failed: {e}")
     sys.exit(1)
