@@ -25,7 +25,7 @@ from tqdm import tqdm
 # 导入自定义模块
 try:
     from dataprepare import load_iso_ne, load_malaysia, enhance_features, split_dataset_by_paper
-    from xganfis.model_lse import TreeANFIS
+    from CITanfis.model_lse import TreeANFIS
 
     print("[System] Modules imported successfully.")
 except ImportError as e:
