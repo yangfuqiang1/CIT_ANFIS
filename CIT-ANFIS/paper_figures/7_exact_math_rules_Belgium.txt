@@ -1,0 +1,589 @@
+====== EXACT MATHEMATICAL RULES (TSK): Belgium ======
+
+Rule 01:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour <  -3.2605 AND
+  Lag_1_Hour <  -3.6175
+THEN 
+  Load = 0.184 · Lag_1_Hour + 0.002
+----------------------------------------
+Rule 02:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour <  -3.2605 AND
+  Lag_1_Hour >= -3.6175 AND
+  Diff_1H <  0.1608
+THEN 
+  Load = 0.215 · Lag_1_Hour + 0.15 · Diff_1H + 0.0
+----------------------------------------
+Rule 03:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour <  -3.2605 AND
+  Lag_1_Hour >= -3.6175 AND
+  Diff_1H >= 0.1608
+THEN 
+  Load = 0.192 · Lag_1_Hour + 0.158 · Diff_1H + 0.005
+----------------------------------------
+Rule 04:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour >= -3.2605 AND
+  Diff_1H <  -0.0125
+THEN 
+  Load = 0.235 · Lag_1_Hour + 0.136 · Diff_1H + 0.001
+----------------------------------------
+Rule 05:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour >= -3.2605 AND
+  Diff_1H >= -0.0125 AND
+  Diff_1H <  2.1405
+THEN 
+  Load = 0.225 · Lag_1_Hour + 0.141 · Diff_1H + 0.004
+----------------------------------------
+Rule 06:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour <  -2.7399 AND
+  Lag_1_Hour >= -3.2605 AND
+  Diff_1H >= -0.0125 AND
+  Diff_1H >= 2.1405
+THEN 
+  Load = 0.21 · Lag_1_Hour + 0.176 · Diff_1H + 0.022
+----------------------------------------
+Rule 07:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H <  0.6192 AND
+  Lag_1_Hour <  -2.3295
+THEN 
+  Load = 0.228 · Lag_1_Hour -0.025 · Hour_Cos + 0.126 · Diff_1H + 0.004
+----------------------------------------
+Rule 08:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H <  0.6192 AND
+  Lag_1_Hour >= -2.3295 AND
+  Diff_1H <  -0.093
+THEN 
+  Load = 0.201 · Lag_1_Hour -0.02 · Hour_Cos + 0.145 · Diff_1H + 0.006
+----------------------------------------
+Rule 09:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H <  0.6192 AND
+  Lag_1_Hour >= -2.3295 AND
+  Diff_1H >= -0.093
+THEN 
+  Load = 0.211 · Lag_1_Hour -0.019 · Hour_Cos + 0.108 · Diff_1H + 0.001
+----------------------------------------
+Rule 10:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H >= 0.6192 AND
+  Lag_1_Hour <  -2.1995 AND
+  Hour <  -1.1621
+THEN 
+  Load = 0.218 · Lag_1_Hour + 0.009 · Hour_Cos + 0.163 · Diff_1H -0.056 · Hour + 0.004
+----------------------------------------
+Rule 11:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H >= 0.6192 AND
+  Lag_1_Hour <  -2.1995 AND
+  Hour >= -1.1621
+THEN 
+  Load = 0.218 · Lag_1_Hour -0.019 · Hour_Cos + 0.142 · Diff_1H -0.042 · Hour + 0.006
+----------------------------------------
+Rule 12:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H >= 0.6192 AND
+  Lag_1_Hour >= -2.1995 AND
+  Hour <  -0.9832
+THEN 
+  Load = 0.22 · Lag_1_Hour + 0.025 · Hour_Cos + 0.165 · Diff_1H -0.051 · Hour + 0.018
+----------------------------------------
+Rule 13:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos <  1.9527 AND
+  Diff_1H >= 0.6192 AND
+  Lag_1_Hour >= -2.1995 AND
+  Hour >= -0.9832
+THEN 
+  Load = 0.215 · Lag_1_Hour -0.008 · Hour_Cos + 0.149 · Diff_1H -0.071 · Hour + -0.0
+----------------------------------------
+Rule 14:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos >= 1.9527 AND
+  Lag_1_Hour <  -2.1462
+THEN 
+  Load = 0.218 · Lag_1_Hour -0.022 · Hour_Cos - 0.003
+----------------------------------------
+Rule 15:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos >= 1.9527 AND
+  Lag_1_Hour >= -2.1462 AND
+  Hour_Sin <  0.4136
+THEN 
+  Load = 0.201 · Lag_1_Hour -0.009 · Hour_Cos -0.018 · Hour_Sin - 0.005
+----------------------------------------
+Rule 16:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour <  -1.7234 AND
+  Lag_1_Hour >= -2.7399 AND
+  Hour_Cos >= 1.9527 AND
+  Lag_1_Hour >= -2.1462 AND
+  Hour_Sin >= 0.4136
+THEN 
+  Load = 0.219 · Lag_1_Hour -0.069 · Hour_Cos + 0.077 · Hour_Sin - 0.005
+----------------------------------------
+Rule 17:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin <  1.1301 AND
+  Hour_Cos <  1.5942 AND
+  Diff_1H <  0.5517
+THEN 
+  Load = 0.213 · Lag_1_Hour + 0.039 · Lag_1_Week + 0.049 · Hour_Sin -0.003 · Hour_Cos + 0.153 · Diff_1H + 0.002
+----------------------------------------
+Rule 18:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin <  1.1301 AND
+  Hour_Cos <  1.5942 AND
+  Diff_1H >= 0.5517
+THEN 
+  Load = 0.21 · Lag_1_Hour + 0.01 · Lag_1_Week + 0.081 · Hour_Sin -0.016 · Hour_Cos + 0.143 · Diff_1H + 0.0
+----------------------------------------
+Rule 19:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin <  1.1301 AND
+  Hour_Cos >= 1.5942 AND
+  Roll_Mean_24H <  0.6717
+THEN 
+  Load = 0.202 · Lag_1_Hour + 0.04 · Lag_1_Week + 0.011 · Hour_Sin + 0.011 · Hour_Cos -0.073 · Roll_Mean_24H - 0.006
+----------------------------------------
+Rule 20:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin <  1.1301 AND
+  Hour_Cos >= 1.5942 AND
+  Roll_Mean_24H >= 0.6717
+THEN 
+  Load = 0.211 · Lag_1_Hour + 0.052 · Lag_1_Week + 0.017 · Hour_Sin -0.018 · Hour_Cos -0.016 · Roll_Mean_24H - 0.01
+----------------------------------------
+Rule 21:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H <  1.4588 AND
+  Diff_1H <  0.0884
+THEN 
+  Load = 0.233 · Lag_1_Hour + 0.043 · Lag_1_Week + 0.073 · Hour_Sin + 0.127 · Diff_1H + 0.001
+----------------------------------------
+Rule 22:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H <  1.4588 AND
+  Diff_1H >= 0.0884
+THEN 
+  Load = 0.224 · Lag_1_Hour + 0.025 · Lag_1_Week + 0.09 · Hour_Sin + 0.121 · Diff_1H + -0.0
+----------------------------------------
+Rule 23:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H >= 1.4588 AND
+  Hour <  -0.9832
+THEN 
+  Load = 0.186 · Lag_1_Hour + 0.019 · Lag_1_Week + 0.078 · Hour_Sin + 0.135 · Diff_1H -0.056 · Hour + 0.014
+----------------------------------------
+Rule 24:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour <  -1.0421 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H >= 1.4588 AND
+  Hour >= -0.9832
+THEN 
+  Load = 0.197 · Lag_1_Hour + 0.021 · Lag_1_Week + 0.067 · Hour_Sin + 0.137 · Diff_1H -0.053 · Hour + 0.016
+----------------------------------------
+Rule 25:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour <  -0.4239 AND
+  Hour_Sin <  1.1301 AND
+  Lag_24_Hour <  -0.9994
+THEN 
+  Load = 0.216 · Lag_1_Hour + 0.041 · Lag_1_Week + 0.001 · Hour_Sin + 0.07 · Lag_24_Hour - 0.01
+----------------------------------------
+Rule 26:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour <  -0.4239 AND
+  Hour_Sin <  1.1301 AND
+  Lag_24_Hour >= -0.9994
+THEN 
+  Load = 0.203 · Lag_1_Hour + 0.024 · Lag_1_Week -0.005 · Hour_Sin + 0.079 · Lag_24_Hour + 0.021
+----------------------------------------
+Rule 27:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour <  -0.4239 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H <  0.0134
+THEN 
+  Load = 0.223 · Lag_1_Hour + 0.015 · Lag_1_Week + 0.068 · Hour_Sin + 0.132 · Diff_1H + 0.002
+----------------------------------------
+Rule 28:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour <  -0.4239 AND
+  Hour_Sin >= 1.1301 AND
+  Diff_1H >= 0.0134
+THEN 
+  Load = 0.211 · Lag_1_Hour + 0.017 · Lag_1_Week + 0.079 · Hour_Sin + 0.112 · Diff_1H + 0.014
+----------------------------------------
+Rule 29:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour >= -0.4239 AND
+  Hour_Sin <  1.3841 AND
+  Hour <  1.6996
+THEN 
+  Load = 0.205 · Lag_1_Hour + 0.009 · Lag_1_Week -0.0 · Hour_Sin -0.194 · Hour + 0.004
+----------------------------------------
+Rule 30:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour >= -0.4239 AND
+  Hour_Sin <  1.3841 AND
+  Hour >= 1.6996
+THEN 
+  Load = 0.188 · Lag_1_Hour + 0.033 · Lag_1_Week + 0.033 · Hour_Sin -0.107 · Hour + 0.009
+----------------------------------------
+Rule 31:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour >= -0.4239 AND
+  Hour_Sin >= 1.3841 AND
+  Lag_1_Hour <  -0.3754
+THEN 
+  Load = 0.226 · Lag_1_Hour + 0.005 · Lag_1_Week + 0.086 · Hour_Sin + 0.019
+----------------------------------------
+Rule 32:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week <  -0.7745 AND
+  Lag_1_Hour >= -1.0421 AND
+  Lag_1_Hour >= -0.4239 AND
+  Hour_Sin >= 1.3841 AND
+  Lag_1_Hour >= -0.3754
+THEN 
+  Load = 0.215 · Lag_1_Hour -0.002 · Lag_1_Week + 0.019 · Hour_Sin + 0.012
+----------------------------------------
+Rule 33:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour <  -0.6469 AND
+  Diff_1H <  -0.1929 AND
+  Lag_1_Hour <  -1.327
+THEN 
+  Load = 0.203 · Lag_1_Hour + 0.049 · Lag_1_Week + 0.135 · Diff_1H + 0.009
+----------------------------------------
+Rule 34:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour <  -0.6469 AND
+  Diff_1H <  -0.1929 AND
+  Lag_1_Hour >= -1.327
+THEN 
+  Load = 0.191 · Lag_1_Hour + 0.038 · Lag_1_Week + 0.153 · Diff_1H - 0.009
+----------------------------------------
+Rule 35:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour <  -0.6469 AND
+  Diff_1H >= -0.1929 AND
+  Lag_1_Hour <  -1.0004
+THEN 
+  Load = 0.211 · Lag_1_Hour + 0.038 · Lag_1_Week + 0.139 · Diff_1H + 0.004
+----------------------------------------
+Rule 36:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour <  -0.6469 AND
+  Diff_1H >= -0.1929 AND
+  Lag_1_Hour >= -1.0004
+THEN 
+  Load = 0.208 · Lag_1_Hour + 0.032 · Lag_1_Week + 0.132 · Diff_1H + 0.003
+----------------------------------------
+Rule 37:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour >= -0.6469 AND
+  Lag_24_Hour <  -0.1562 AND
+  Lag_1_Hour <  -0.3754
+THEN 
+  Load = 0.2 · Lag_1_Hour + 0.05 · Lag_1_Week + 0.104 · Diff_1H + 0.025 · Lag_24_Hour + 0.029
+----------------------------------------
+Rule 38:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour >= -0.6469 AND
+  Lag_24_Hour <  -0.1562 AND
+  Lag_1_Hour >= -0.3754
+THEN 
+  Load = 0.202 · Lag_1_Hour + 0.042 · Lag_1_Week + 0.128 · Diff_1H + 0.026 · Lag_24_Hour + 0.017
+----------------------------------------
+Rule 39:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour >= -0.6469 AND
+  Lag_24_Hour >= -0.1562 AND
+  Hour <  1.163
+THEN 
+  Load = 0.197 · Lag_1_Hour + 0.022 · Lag_1_Week + 0.155 · Diff_1H + 0.017 · Lag_24_Hour -0.22 · Hour - 0.001
+----------------------------------------
+Rule 40:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H <  1.3002 AND
+  Lag_1_Hour >= -0.6469 AND
+  Lag_24_Hour >= -0.1562 AND
+  Hour >= 1.163
+THEN 
+  Load = 0.2 · Lag_1_Hour + 0.021 · Lag_1_Week + 0.129 · Diff_1H + 0.052 · Lag_24_Hour -0.148 · Hour + 0.005
+----------------------------------------
+Rule 41:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour <  -0.9374 AND
+  Hour <  -0.9832 AND
+  Lag_1_Hour <  -1.2987
+THEN 
+  Load = 0.207 · Lag_1_Hour + 0.01 · Lag_1_Week + 0.177 · Diff_1H -0.051 · Hour + 0.021
+----------------------------------------
+Rule 42:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour <  -0.9374 AND
+  Hour <  -0.9832 AND
+  Lag_1_Hour >= -1.2987
+THEN 
+  Load = 0.216 · Lag_1_Hour + 0.024 · Lag_1_Week + 0.175 · Diff_1H -0.059 · Hour + 0.019
+----------------------------------------
+Rule 43:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour <  -0.9374 AND
+  Hour >= -0.9832 AND
+  Diff_1H <  2.9514
+THEN 
+  Load = 0.21 · Lag_1_Hour + 0.017 · Lag_1_Week + 0.178 · Diff_1H -0.087 · Hour + 0.021
+----------------------------------------
+Rule 44:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour <  -0.9374 AND
+  Hour >= -0.9832 AND
+  Diff_1H >= 2.9514
+THEN 
+  Load = 0.219 · Lag_1_Hour + 0.053 · Lag_1_Week + 0.175 · Diff_1H -0.04 · Hour - 0.007
+----------------------------------------
+Rule 45:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour >= -0.9374 AND
+  Hour <  -0.8044 AND
+  Lag_1_Hour <  -0.5436
+THEN 
+  Load = 0.215 · Lag_1_Hour + 0.023 · Lag_1_Week + 0.177 · Diff_1H -0.056 · Hour + 0.01
+----------------------------------------
+Rule 46:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour >= -0.9374 AND
+  Hour <  -0.8044 AND
+  Lag_1_Hour >= -0.5436
+THEN 
+  Load = 0.209 · Lag_1_Hour + 0.026 · Lag_1_Week + 0.171 · Diff_1H -0.044 · Hour + 0.016
+----------------------------------------
+Rule 47:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour >= -0.9374 AND
+  Hour >= -0.8044 AND
+  Lag_1_Hour <  -0.4451
+THEN 
+  Load = 0.213 · Lag_1_Hour + 0.018 · Lag_1_Week + 0.15 · Diff_1H -0.124 · Hour + 0.004
+----------------------------------------
+Rule 48:
+IF 
+  Lag_1_Hour <  0.1451 AND
+  Lag_1_Hour >= -1.7234 AND
+  Lag_1_Week >= -0.7745 AND
+  Diff_1H >= 1.3002 AND
+  Lag_1_Hour >= -0.9374 AND
+  Hour >= -0.8044 AND
+  Lag_1_Hour >= -0.4451
+THEN 
+  Load = 0.216 · Lag_1_Hour + 0.042 · Lag_1_Week + 0.15 · Diff_1H -0.114 · Hour + 0.006
+----------------------------------------
+Rule 49:
+IF 
+  Lag_1_Hour >= 0.1451 AND
+  Lag_1_Hour <  2.0281 AND
+  Lag_1_Hour <  1.028 AND
+  Hour_Sin <  1.1301 AND
+  Lag_1_Hour <  0.5371 AND
+  Hour_Cos <  -0.0005 AND
+  Hour <  0.6265
+THEN 
+  Load = 0.198 · Lag_1_Hour + 0.075 · Hour_Sin -0.06 · Hour_Cos -0.071 · Hour + 0.008
+----------------------------------------
+Rule 50:
+IF 
+  Lag_1_Hour >= 0.1451 AND
+  Lag_1_Hour <  2.0281 AND
+  Lag_1_Hour <  1.028 AND
+  Hour_Sin <  1.1301 AND
+  Lag_1_Hour <  0.5371 AND
+  Hour_Cos <  -0.0005 AND
+  Hour >= 0.6265
+THEN 
+  Load = 0.192 · Lag_1_Hour + 0.052 · Hour_Sin -0.007 · Hour_Cos -0.126 · Hour + 0.009
+----------------------------------------

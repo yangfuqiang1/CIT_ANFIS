@@ -2,12 +2,11 @@
 """
 Step1_Master_Baseline.py
 ------------------
-[Final Manual Config Version]
+[Pure Baseline Version]
 Features:
 1. DL Models: Imports Pro versions (Bi-LSTM, Transformer-PE, ResNet-MLP, SiLU-KAN) from dl_models.
 2. Bit-level Reproducibility: Full seeding.
-3. Smart Pruning: Adaptive Threshold.
-4. CIT-ANFIS: Locked to Order=1.
+3. Baselines ONLY: Model 9 (CIT-ANFIS) has been removed. It focuses solely on generating baseline predictions.
 """
 
 import time
@@ -34,7 +33,7 @@ from tqdm import tqdm
 warnings.filterwarnings('ignore')
 
 print(f"{'=' * 60}")
-print("INITIALIZING BENCHMARK SUITE (Pro DL Models)")
+print("INITIALIZING BENCHMARK SUITE (Baselines Only)")
 print(f"{'=' * 60}")
 
 # 1. 导入数据工具
@@ -45,24 +44,21 @@ except ImportError:
     print("[Critical Error] Cannot find 'dataprepare.py'.")
     sys.exit(1)
 
-# 2. 导入 CIT-ANFIS 库
+# 2. 导入 Standard ANFIS 库 (移除了 CIT-ANFIS)
 try:
     from tanfis_lib.model import FirstTSK
-    from xganfis.model_lse import TreeANFIS
-    print("[System] ANFIS Models imported successfully.")
+    print("[System] Standard ANFIS Model imported successfully.")
 except ImportError as e:
     print(f"\n[Critical Error] Model import failed: {e}")
     sys.exit(1)
 
 # 3. 导入增强版深度学习模型 (Pro Versions)
 try:
-    # [FIX] 确保 dl_models 文件夹存在，且里面有 models.py
     from dl_models.model import LSTMModel, TransformerModel, DeepMLP, SimpleKAN
     print("[System] All Pro DL Models (Bi-LSTM, Trans-PE, DeepMLP, SiLU-KAN) imported.")
 except ImportError as e:
     print(f"[Critical Error] Cannot find 'dl_models/model.py': {e}")
     sys.exit(1)
-
 
 
 def setup_seed(seed=2024):
@@ -83,7 +79,7 @@ def setup_seed(seed=2024):
     print(f"[System] Random Seed set to {seed} (Deterministic Mode On)")
 
 
-def load_belgium_data(filepath='ods001.csv'):
+def load_belgium_data(filepath='data/ods001.csv'):
     """
     读取比利时电网数据 (2020-2025) - 增强健壮性版
     """
@@ -213,11 +209,9 @@ def enhance_features_belgium(df):
 
     df['Lag_1_Week'] = df[target].shift(24 * 7)  # 上周
 
-
     # ==========================================
     # 4. 滚动统计特征 (Rolling Window Statistics)
     # ==========================================
-
     shifted_target = df[target].shift(1)
 
     # A. 过去 24 小时 (日级别统计)
@@ -267,6 +261,8 @@ def split_belgium_data(df):
     test_df = df.iloc[val_end:]
 
     return train_df, val_df, test_df, val_df
+
+
 # ==========================================
 # 1. 统一训练器 (带 Generator)
 # ==========================================
@@ -330,39 +326,25 @@ def calculate_metrics(y_true, y_pred, time_taken):
 
 
 # ==========================================
-# 2. 主实验循环 (修复版)
+# 2. 主实验循环 (仅基线模型)
 # ==========================================
 
 def run_experiment(dataset_name, df_loader_func, device):
     print(f"\n{'-' * 30} Processing {dataset_name} {'-' * 30}")
 
-    # 超参数配置
-    HYPERPARAMS = {
-        "Malaysia": {"n_estimators": 10, "max_depth": 6},
-        "ISO-NE": {"n_estimators": 20, "max_depth": 6},
-        "Belgium": {"n_estimators": 5, "max_depth": 8}
-    }
-    current_params = HYPERPARAMS.get(dataset_name, {"n_estimators": 15, "max_depth": 6})
-
     # === [关键修复] 数据加载逻辑分支 ===
-    # 必须确保这里的字符串 "Belgium" 和你底部调用时传入的一模一样
     if dataset_name == "Belgium":
-        # 专门处理 Belgium 数据，不使用传入的 None
-        df = load_belgium_data('ods001.csv')
+        df = load_belgium_data('data/ods001.csv')
         if df is None: return []
 
-        # 使用 Belgium 专属的特征工程 (无温度)
         df_fe = enhance_features_belgium(df)
-
-        # 使用 Belgium 专属的数据切分
         train_df, val_df, test_df, ind_val_df = split_belgium_data(df_fe)
 
-        # 排除非特征列
         exclude = ['Datetime', 'Total Load', 'date', 'demand', 'temperature', 'Season']
         feature_cols = [c for c in df_fe.columns if c not in exclude]
 
     else:
-        # === 其他数据集的逻辑 (防止报错) ===
+        # === 其他数据集的逻辑 ===
         if df_loader_func is None:
             print(f"[Error] No loader function provided for {dataset_name}!")
             return []
@@ -399,8 +381,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     predictions_data = {'Actual': y_test}
     results_list = []
 
-    #--- [从这里开始往下是模型训练代码，保持原样即可] ---
-    #1. SVR
+    # 1. SVR
     print("1. Training SVR...")
     t0 = time.time()
     model_svr = SVR(kernel='rbf', C=100)
@@ -412,7 +393,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(model_svr.predict(X_test).reshape(-1, 1)).flatten()
     predictions_data['SVR'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'SVR';
+    results_list[-1]['Model'] = 'SVR'
     results_list[-1]['Dataset'] = dataset_name
 
     # 2. RandomForest
@@ -423,7 +404,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(model_rf.predict(X_test).reshape(-1, 1)).flatten()
     predictions_data['RandomForest'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'RandomForest';
+    results_list[-1]['Model'] = 'RandomForest'
     results_list[-1]['Dataset'] = dataset_name
 
     # 3. XGBoost
@@ -434,7 +415,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(model_xgb.predict(X_test).reshape(-1, 1)).flatten()
     predictions_data['XGBoost'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'XGBoost';
+    results_list[-1]['Model'] = 'XGBoost'
     results_list[-1]['Dataset'] = dataset_name
 
     # 4. Bi-LSTM
@@ -448,7 +429,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(pred_s.reshape(-1, 1)).flatten()
     predictions_data['LSTM'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'LSTM';
+    results_list[-1]['Model'] = 'LSTM'
     results_list[-1]['Dataset'] = dataset_name
 
     # 5. Transformer
@@ -462,7 +443,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(pred_s.reshape(-1, 1)).flatten()
     predictions_data['Transformer'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'Transformer';
+    results_list[-1]['Model'] = 'Transformer'
     results_list[-1]['Dataset'] = dataset_name
 
     # 6. Deep MLP
@@ -476,7 +457,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(pred_s.reshape(-1, 1)).flatten()
     predictions_data['MLP'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'MLP';
+    results_list[-1]['Model'] = 'MLP'
     results_list[-1]['Dataset'] = dataset_name
 
     # 7. KAN
@@ -490,7 +471,7 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(pred_s.reshape(-1, 1)).flatten()
     predictions_data['KAN'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'KAN';
+    results_list[-1]['Model'] = 'KAN'
     results_list[-1]['Dataset'] = dataset_name
 
     # 8. Standard ANFIS
@@ -531,52 +512,14 @@ def run_experiment(dataset_name, df_loader_func, device):
     pred = scaler_y.inverse_transform(pred_s.cpu().numpy().reshape(-1, 1)).flatten()
     predictions_data['Standard_ANFIS'] = pred
     results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'ANFIS';
+    results_list[-1]['Model'] = 'ANFIS'
     results_list[-1]['Dataset'] = dataset_name
 
-    # 9. CIT-ANFIS
-    print("9. Training CIT-ANFIS (Proposed)...")
-    t0 = time.time()
-    n_est = current_params['n_estimators']
-    max_d = current_params['max_depth']
-    print(f"   -> Using Params: n_estimators={n_est}, max_depth={max_d}")
-
-    model_cit = TreeANFIS(
-        n_estimators=n_est,
-        max_depth=max_d,
-        learning_rate=0.1,
-        order=2,
-        use_causal=True,
-        interaction_threshold=0.05
-    )
-    model_cit.identify_structure(X_train, y_train, feature_names=feature_cols)
-    model_cit = model_cit.to(device)
-    model_cit.initialize_consequents(X_train_t, y_train_t)
-
-    n_rules = model_cit.rule_feat_idxs.shape[0]
-    if n_rules > 0:
-        adaptive_thresh = (1.0 / n_rules) * 0.1
-        model_cit.optimize_rule_base(X_train_t, threshold=adaptive_thresh)
-
-    model_cit.train_neuro_fuzzy(
-        X_train_t, y_train_t,
-        X_val=X_val_t, y_val=y_val_t,
-        epochs=150,
-        batch_size=2048,
-        patience=15
-    )
-
-    with torch.no_grad():
-        pred_s = model_cit(X_test_t).cpu().numpy()
-    pred = scaler_y.inverse_transform(pred_s.reshape(-1, 1)).flatten()
-    predictions_data['CIT_ANFIS'] = pred
-    results_list.append(calculate_metrics(y_test, pred, time.time() - t0))
-    results_list[-1]['Model'] = 'CIT-ANFIS';
-    results_list[-1]['Dataset'] = dataset_name
-
-    print(f"Finished {dataset_name}. CIT-ANFIS MAPE: {results_list[-1]['MAPE']:.2f}%")
+    print(f"Finished Baselines for {dataset_name}.")
+    
+    # 保存基础预测数据（不含 CIT_ANFIS）
     df_preds = pd.DataFrame(predictions_data)
-    df_preds.to_csv(f"predictions_{dataset_name}.csv", index=False)
+    df_preds.to_csv(f"result/predictions_{dataset_name}.csv", index=False)
 
     return results_list
 
@@ -601,4 +544,4 @@ if __name__ == "__main__":
         print("FINAL BENCHMARK RESULTS")
         print("=" * 80)
         print(df_res.to_string(index=False))
-        df_res.to_csv("benchmark_results_final.csv", index=False)
+        df_res.to_csv("result/benchmark_results_final.csv", index=False)

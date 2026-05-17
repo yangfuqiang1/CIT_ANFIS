@@ -2,7 +2,6 @@
 """
 执行脚本：使用 Tree-ANFIS 模型对三个真实电力负荷数据集进行预测
 包含：ISO-NE, Malaysia, North American
-完全对齐论文《Short-Term Power Load Forecasting Under Unstable Data Quality》的实验设置
 
 修改说明：
 1. 所有数据集均采用“独立验证集”策略（从训练集末尾划分 5% 用于 Early Stopping）。
@@ -32,17 +31,6 @@ except ImportError:
 # 忽略警告
 warnings.filterwarnings('ignore')
 
-# ==========================================
-# 1. 导入模型 (从 xganfis 包中)
-# ==========================================
-try:
-    from xganfis.model_lse import TreeANFIS
-
-    print("[System] Successfully imported TreeANFIS from xganfis package.")
-except ImportError as e:
-    print("\n[Error] 导入失败。请确认文件夹结构是否正确（包含 xganfis 文件夹和 __init__.py）。")
-    raise e
-
 
 def setup_seed(seed):
     """固定随机种子，保证实验复现性"""
@@ -69,7 +57,7 @@ def load_iso_ne():
     """加载ISO-NE数据集（2023-2024），论文要求时间范围"""
     print("Loading ISO-NE (2023-2024)...")
     try:
-        df = pd.read_csv('ISO-NE (2023-2024).csv')
+        df = pd.read_csv('data/ISO-NE (2023-2024).csv')
         df['date'] = pd.to_datetime(df['date'])
         df['Datetime'] = df['date'] + pd.to_timedelta(df['hour'] - 1, unit='h')
 
@@ -94,7 +82,7 @@ def load_malaysia():
     """加载马来西亚数据集（2009-2010），论文要求时间范围"""
     print("Loading Malaysia (2009-2010)...")
     try:
-        df = pd.read_csv('NEW-Malaysia.csv')
+        df = pd.read_csv('data/NEW-Malaysia.csv')
         df['date'] = pd.to_datetime(df['date'])
         df['Datetime'] = df['date'] + pd.to_timedelta(df['hour'] - 1, unit='h')
 
@@ -122,7 +110,7 @@ def load_north_american():
     print("Loading North American (1985-1992)...")
     try:
         # 验证数据集文件是否存在
-        required_files = ['output.txt', 'input.txt']
+        required_files = ['data/output.txt', 'data/input.txt']
         for file in required_files:
             if not os.path.exists(file):
                 raise FileNotFoundError(f"缺少数据集文件：{file}，请从论文GitHub下载完整版本")
@@ -327,7 +315,168 @@ def split_dataset_by_paper(df, dataset_name):
     return train_df, val_df, test_df, independent_val_df
 
 
+def load_belgium_data(filepath='ods001.csv'):
+    """
+    读取比利时电网数据 (2020-2025) - 增强健壮性版
+    """
+    print(f"Loading Belgium Data from {filepath}...")
 
+    if not os.path.exists(filepath):
+        print(f"[Error] File '{filepath}' not found!")
+        sys.exit(1)
+
+    try:
+        # 优先尝试分号 (ODS 常见格式)
+        df = pd.read_csv(filepath, sep=';')
+        if df.shape[1] < 2:  # 如果分号解析失败
+            df = pd.read_csv(filepath, sep=',')
+    except Exception as e:
+        print(f"[Error] Failed to read CSV: {e}")
+        sys.exit(1)
+
+    # [Fix 1] 去除列名空格
+    df.columns = df.columns.str.strip()
+
+    # 检查是否有时间列
+    if 'Datetime' not in df.columns:
+        print(f"[Error] 'Datetime' column missing. Found: {df.columns.tolist()}")
+        sys.exit(1)
+
+    # [Fix 2] 解析时间并转换为布鲁塞尔时间
+    try:
+        df['Datetime'] = pd.to_datetime(df['Datetime'], utc=True).dt.tz_convert('Europe/Brussels')
+    except:
+        # 如果转换失败（比如系统不支持），退回 UTC
+        df['Datetime'] = pd.to_datetime(df['Datetime'], utc=True)
+
+    # 排序
+    df = df.sort_values('Datetime').reset_index(drop=True)
+
+    # 检查目标列
+    target_col = 'Total Load'
+    if target_col not in df.columns:
+        # 尝试模糊匹配，比如 'Load', 'GridLoad' 等
+        candidates = [c for c in df.columns if 'Load' in c]
+        if candidates:
+            print(f"[Warning] '{target_col}' not found. Using '{candidates[0]}' instead.")
+            target_col = candidates[0]
+        else:
+            print(f"[Error] Column '{target_col}' not found. Available: {df.columns.tolist()}")
+            sys.exit(1)
+
+    data = df[['Datetime', target_col]].copy()
+
+    # 重命名统一方便后续处理
+    data.columns = ['Datetime', 'Total Load']
+
+    print(f"   Original shape: {data.shape} (Raw)")
+    # 去除时区信息 (变成 Naive Time)，防止后续 pytorch 转换报错
+    data['Datetime'] = data['Datetime'].dt.tz_localize(None)
+    print(f"   Resampled shape: {data.shape} (Original Resolution)")
+
+    # 筛选2024-2025年的数据
+    start_date = pd.Timestamp('2024-01-01')
+    end_date = pd.Timestamp('2025-12-31')
+    data = data[(data['Datetime'] >= start_date) & (data['Datetime'] <= end_date)].copy()
+    data = data.reset_index(drop=True)
+
+    print(f"   Filtered shape: {data.shape} (2024-2025)")
+
+    return data
+
+
+def enhance_features_belgium(df):
+    """
+    比利时数据特征工程 (终极增强版)
+    针对无温度场景，大幅增强时序特征挖掘。
+    """
+    df = df.copy()
+    target = 'Total Load'
+
+    # ==========================================
+    # 1. 基础日历特征 (Calendar)
+    # ==========================================
+    df['Hour'] = df['Datetime'].dt.hour
+    df['DayOfWeek'] = df['Datetime'].dt.dayofweek
+    df['Month'] = df['Datetime'].dt.month
+    df['DayOfYear'] = df['Datetime'].dt.dayofyear
+    df['Year'] = df['Datetime'].dt.year  # 捕捉长期增长趋势
+
+    # 季度与周末标识
+    df['Season'] = (df['Month'] % 12 + 3) // 3
+    df['Is_Weekend'] = df['DayOfWeek'].apply(lambda x: 1 if x >= 5 else 0)  # 周末为1，工作日为0
+
+    # 将一天划分为更细的时间段 (Peak/Off-Peak)
+    # 假设 7-22点是高峰期 (根据比利时工业习惯可微调)
+    df['Is_Peak_Hour'] = df['Hour'].apply(lambda x: 1 if 7 <= x <= 22 else 0)
+
+    # ==========================================
+    # 2. 周期性编码 (Cyclical Encoding)
+    # ==========================================
+    # 保持原有的，这是深度学习捕捉周期的神器
+    df['Hour_Sin'] = np.sin(2 * np.pi * df['Hour'] / 24)
+    df['Hour_Cos'] = np.cos(2 * np.pi * df['Hour'] / 24)
+    df['DayOfWeek_Sin'] = np.sin(2 * np.pi * df['DayOfWeek'] / 7)
+    df['DayOfWeek_Cos'] = np.cos(2 * np.pi * df['DayOfWeek'] / 7)
+    df['Month_Sin'] = np.sin(2 * np.pi * df['Month'] / 12)
+    df['Month_Cos'] = np.cos(2 * np.pi * df['Month'] / 12)
+    df['DayOfYear_Sin'] = np.sin(2 * np.pi * df['DayOfYear'] / 365.25)  # 增加年周期
+    df['DayOfYear_Cos'] = np.cos(2 * np.pi * df['DayOfYear'] / 365.25)
+
+    # ==========================================
+    # 3. 增强型滞后特征 (Advanced Lags)
+    # ==========================================
+    # A. 短期记忆 (最近几小时)
+    df['Lag_1_Hour'] = df[target].shift(1)
+    df['Lag_2_Hour'] = df[target].shift(2)  # 新增
+    df['Lag_3_Hour'] = df[target].shift(3)  # 新增
+
+    # B. 中期记忆 (昨天/前天)
+    df['Lag_24_Hour'] = df[target].shift(24)  # 昨天同一时刻
+    df['Lag_25_Hour'] = df[target].shift(25)  # 昨天前一小时 (捕捉趋势)
+    df['Lag_48_Hour'] = df[target].shift(48)  # 前天同一时刻 (新增)
+
+    df['Lag_1_Week'] = df[target].shift(24 * 7)  # 上周
+
+
+    # ==========================================
+    # 4. 滚动统计特征 (Rolling Window Statistics)
+    # ==========================================
+
+    shifted_target = df[target].shift(1)
+
+    # A. 过去 24 小时 (日级别统计)
+    roll_24 = shifted_target.rolling(window=24)
+    df['Roll_Mean_24H'] = roll_24.mean()
+    df['Roll_Std_24H'] = roll_24.std()  
+    df['Roll_Max_24H'] = roll_24.max()
+    df['Roll_Min_24H'] = roll_24.min()
+
+    # B. 过去 7 天 (周级别统计) - 新增
+    # 捕捉更长期的基准线
+    roll_168 = shifted_target.rolling(window=24 * 7)
+    df['Roll_Mean_7D'] = roll_168.mean()
+    df['Roll_Std_7D'] = roll_168.std()  # 周波动率
+
+    # C. 指数移动平均 (EMA) - 对近期数据权重更高
+    df['EMA_12H'] = shifted_target.ewm(span=12, adjust=False).mean()  # 半日趋势
+    df['EMA_168H'] = shifted_target.ewm(span=168, adjust=False).mean()  # 周趋势
+
+    # ==========================================
+    # 5. 差分与变化率特征 (Difference & Rate) - 新增
+    # ==========================================
+    # 捕捉负荷是在“爬坡”还是“下降”
+    # 当前时刻预测值无法获知，但我们可以知道“上一小时的变化量”
+    df['Diff_1H'] = df['Lag_1_Hour'] - df['Lag_2_Hour']  # 最近一小时的变化
+    df['Diff_24H'] = df['Lag_1_Hour'] - df['Lag_24_Hour']  # 与昨天相比的变化
+
+    # ==========================================
+    # 6. 数据清洗
+    # ==========================================
+    # 鉴于你有 10 年数据，丢弃第一年作为“预热期”是完全划算的
+    df.dropna(inplace=True)
+
+    return df
 
 def add_temperature_noise_north_american(df):
     """对北美数据集添加论文要求的温度噪声"""
@@ -339,8 +488,5 @@ def add_temperature_noise_north_american(df):
     return df
 
 
-# ==========================================
-# 6. 训练核心流程
-# ==========================================
 
 

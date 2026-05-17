@@ -1,0 +1,52 @@
+====== CLASSIC FUZZY RULE BASE: Belgium ======
+
+Rule 01: IF [Lag_1_Hour is Very High] THEN Load_Forecast is Pattern_01
+Rule 02: IF [Lag_1_Hour is Very High AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_02
+Rule 03: IF [Lag_1_Hour is Very High AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_03
+Rule 04: IF [Lag_1_Hour is High AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_04
+Rule 05: IF [Lag_1_Hour is High AND Diff_1H is Low] THEN Load_Forecast is Pattern_05
+Rule 06: IF [Lag_1_Hour is High AND Diff_1H is Low] THEN Load_Forecast is Pattern_06
+Rule 07: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_07
+Rule 08: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_08
+Rule 09: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_09
+Rule 10: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_10
+Rule 11: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_11
+Rule 12: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_12
+Rule 13: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_13
+Rule 14: IF [Lag_1_Hour is High AND Hour_Cos is Very Low] THEN Load_Forecast is Pattern_14
+Rule 15: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Hour_Sin is Very Low] THEN Load_Forecast is Pattern_15
+Rule 16: IF [Lag_1_Hour is High AND Hour_Cos is Very Low AND Hour_Sin is Very Low] THEN Load_Forecast is Pattern_16
+Rule 17: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_17
+Rule 18: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_18
+Rule 19: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Roll_Mean_24H is Very Low] THEN Load_Forecast is Pattern_19
+Rule 20: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Roll_Mean_24H is Very Low] THEN Load_Forecast is Pattern_20
+Rule 21: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_21
+Rule 22: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_22
+Rule 23: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_23
+Rule 24: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_24
+Rule 25: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Lag_24_Hour is Very Low] THEN Load_Forecast is Pattern_25
+Rule 26: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Lag_24_Hour is Very Low] THEN Load_Forecast is Pattern_26
+Rule 27: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_27
+Rule 28: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Diff_1H is Very Low] THEN Load_Forecast is Pattern_28
+Rule 29: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_29
+Rule 30: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_30
+Rule 31: IF [Lag_1_Hour is Very High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low] THEN Load_Forecast is Pattern_31
+Rule 32: IF [Lag_1_Hour is Very High AND Lag_1_Week is Very Low AND Hour_Sin is Very Low] THEN Load_Forecast is Pattern_32
+Rule 33: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_33
+Rule 34: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_34
+Rule 35: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_35
+Rule 36: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Low] THEN Load_Forecast is Pattern_36
+Rule 37: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Lag_24_Hour is Very Low] THEN Load_Forecast is Pattern_37
+Rule 38: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Lag_24_Hour is Very Low] THEN Load_Forecast is Pattern_38
+Rule 39: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Lag_24_Hour is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_39
+Rule 40: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Lag_24_Hour is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_40
+Rule 41: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_41
+Rule 42: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_42
+Rule 43: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Diff_1H is Low AND Hour is Very Low] THEN Load_Forecast is Pattern_43
+Rule 44: IF [Lag_1_Hour is Medium AND Lag_1_Week is Very Low AND Diff_1H is Low AND Hour is Very Low] THEN Load_Forecast is Pattern_44
+Rule 45: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_45
+Rule 46: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_46
+Rule 47: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_47
+Rule 48: IF [Lag_1_Hour is High AND Lag_1_Week is Very Low AND Diff_1H is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_48
+Rule 49: IF [Lag_1_Hour is High AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_49
+Rule 50: IF [Lag_1_Hour is High AND Hour_Sin is Very Low AND Hour_Cos is Very Low AND Hour is Very Low] THEN Load_Forecast is Pattern_50
